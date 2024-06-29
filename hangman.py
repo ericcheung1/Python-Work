@@ -12,7 +12,6 @@ print("\n" * 60)
 # Initialize Variables 
 display = "_" * len(secret) # Create display string which uses underscores to represent letters
 misses = 0 # Counts the number of incorrect guesses
-correct = 0 # Counts the number of correct guesses
 unguessed = display.count("_") # Keeps track of unguessed letter by counting the underscores in display string
 
 def do_turn(display, misses):
@@ -53,10 +52,7 @@ while unguessed != 0 and misses < 6: # Loops until there are 0 unguessed letters
     guess = do_turn(display, misses) # Assigns guess to variable
     display, count = new_display(secret, display, guess) # Updates display and count variable
     
-    if count > 0:
-        correct = correct + count # Keeps track of correct guess in the current game
-    
-    elif count <= 0 and len(guess) == 1: 
+    if count <= 0 and len(guess) == 1: 
         misses = misses + 1 # Counts misses if are 1 letter long 
     
     unguessed = display.count("_") # Updates unguessed variable
