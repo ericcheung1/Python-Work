@@ -35,7 +35,7 @@ def count_points(some_hand):
 
 #how many players and their balance
 num_players = int(input("How many players? "))
-player_balance = 1000 * num_players
+player_balance = [1000] * num_players
 print(player_balance)
 deck = shuffled_deck()
 
@@ -45,8 +45,8 @@ for i in range(3):
 
     # asks for how many players
     for player in range(num_players):
-        print("Player #" + str(player+1) + "\n" + "You have S1000.")
-        bet = input("How much do you want to bet? ")
+        print("Player #" + str(player+1) + "\n" + "You have $" +str(player_balance[player]) + ".")
+        bet = int(input("How much do you want to bet? "))
         all_bets.append(bet)
     print(all_bets)    
     print("")
@@ -66,14 +66,18 @@ for i in range(3):
 
     # players turn
     for player, hand in enumerate(all_hands): # Goes through each player's hand
-    
+        hand_value = count_points(hand) 
+
+        # prints player, hand, and hand value
+        print("Player #" + str(player+1))
+        print("Cards: " + cards.hand_display(hand) + ", " + "total: " + str(hand_value))
     
         while True: # Loop for hits or stands or invalid inputs
             hand_value = count_points(hand) 
 
             # prints player, hand, and hand value
-            print("Player #" + str(player+1))
-            print("Cards: " + cards.hand_display(hand) + ", " + "total: " + str(hand_value))
+            #print("Player #" + str(player+1))
+            #print("Cards: " + cards.hand_display(hand) + ", " + "total: " + str(hand_value))
             
             # handle busting
             if hand_value > 21: 
@@ -85,12 +89,14 @@ for i in range(3):
             if choice == "h":
                 hand.append(deck.pop()) # deals card from deck to current players hand
                 #print(all_hands)
+                hand_value = count_points(hand)
                 print("Player #" + str(player+1))
                 print("Cards: " + cards.hand_display(hand) + ", " + "total: " + str(hand_value))
             elif choice == "s":
                 break
             else:
                 print('Please enter "h" or "s". ')
+        print("")
 
     # dealer's turn
     dealer_points = count_points(dealer_hand)
@@ -104,10 +110,27 @@ for i in range(3):
 
     # win/loss condition 
     for player, hand in enumerate(all_hands):
-        if count_points(hand) > 21:
-            print("Player " + str(player+1) + "loses" + all_bets[player])
-        else:
-            if count_points(hand) > dealer_points:
-                print("Player " + str(player+1) + "wins" + all_bets[player])
+        if count_points(hand) > 21:                                                     # if player(s) bust
+            print("Player " + str(player+1) + " loses $" + str(all_bets[player]) + ".")
+            player_balance[player] = player_balance[player] - all_bets[player]
+        
+        else:                                                                           # if player(s) don't bust
+            
+            if count_points(hand) > dealer_points:                                      # player has more points than dealer
+                print("Player " + str(player+1) + " wins $" + str(all_bets[player]) + ".")
+                player_balance[player] = player_balance[player] + all_bets[player]
+            elif dealer_points > 21:                                                    # if dealer busts
+                print("Player " + str(player+1) + " wins $" + str(all_bets[player]) + ".")
+                player_balance[player] = player_balance[player] + all_bets[player]
+            elif count_points(hand) == dealer_points:                                   # dealer points == player points   
+                print("Player " + str(player+1) + " pushes.")
+            elif dealer_points > count_points(hand):                                    # dealer has more points than player
+                print("Player " + str(player+1) + " loses $" + str(all_bets[player]) + ".")
+                player_balance[player] = player_balance[player] - all_bets[player]
+    
+    input("Please press enter to continue.")
+    print("")
 
+for player, balance in enumerate(player_balance):
+    print("Player #" + str(player+1) + ": " + str(balance))
     
