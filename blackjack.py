@@ -16,20 +16,20 @@ def count_points(some_hand):
     Calculates points in a hand.
     """
     points = 0
-    aces = 0 
+    aces = 0 # keeps tracks of aces in points calculation
     
     for cards in some_hand:
         if cards.rank() in ["J", "Q", "K", "T"]:
             points = points + 10
         elif cards.rank() == "A":
-            aces = aces + 1
+            aces = aces + 1 # adds ace to counter
             points = points + 11
         else:
             points = points + int(cards.rank())
     
-    while points > 21 and aces > 0:
-        points = points - 10
-        aces = aces - 1 
+    while points > 21 and aces > 0: # if points is greater than 21, aces will count for 1 
+        points = points - 10 # changes aces's value to 1
+        aces = aces - 1 # resets ace counter for next ace drawn
     
     return points 
 
@@ -37,21 +37,21 @@ def ask_for_bets(num_players):
     """
     Asks user(s) how much they want to bet and and appends to list of bets in current turn.
     """
-    all_bets = []
+    all_bets = [] # master list of all bets in turn 
     for player in range(num_players):
         print("Player #" + str(player+1) + "\n" + "You have $" +str(player_balance[player]) + ".")
         bet = int(input("How much do you want to bet? "))
         
         while True: # valid bets loop
             
-            if bet < 1:
+            if bet < 1: # re-enter bet if it's less than 1
                 print("Player #" + str(player+1) + "\n" + "You have $" +str(player_balance[player]) + ".")
                 bet = int(input("How much do you want to bet? "))
-            elif bet > player_balance[player]:
+            elif bet > player_balance[player]: # re-enter bet if it's greater than balance
                 print("Player #" + str(player+1) + "\n" + "You have $" +str(player_balance[player]) + ".")
                 bet = int(input("How much do you want to bet? "))
             else:
-                all_bets.append(bet)
+                all_bets.append(bet) # apppends valid bets 
                 break
     
     return all_bets
