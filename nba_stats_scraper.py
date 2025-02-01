@@ -86,7 +86,7 @@ total_min_table.rename(columns={'MP': 'Total Minutes'}, inplace=True)
 total_min_table.head()
 
 
-########### merging bales
+########### merging tables
 int_tab1 = pd.merge(per_game, advanced_stats, how='left', on=('Player', 'Age', 'Team'))
 int_tab1.head()
 
