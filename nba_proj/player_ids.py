@@ -21,7 +21,7 @@ def get_player_ids(name, db_path):
             max_id = cursor.fetchone()[0] # fetches the highest/newest player_id
             player_id = 1 if max_id is None else max_id+1 # assigns first or next player_id
 
-            # interting player_id and name into players table
+            # inserting player_id and name into players table
             cursor.execute('INSERT INTO players (player_id, player) VALUES (?, ?)', (player_id, name))
             conn.commit()
             return player_id
