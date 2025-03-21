@@ -31,6 +31,14 @@ def scrape_page(url):
         print("from bbref")
         header = rows[0] # getting header row
         output.columns = [th.text.strip() for th in header.find_all('th')]
+
+        season_num = page_soup.find('h1').find('span')
+
+        if season_num:
+            season_text = season_num.text.strip()
+    
+        output['season'] = season_text
+
     else:
         print("from hoophype")
         header = table[0].find('thead').find('tr') # getting header row
