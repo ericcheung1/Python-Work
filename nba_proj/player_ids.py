@@ -9,7 +9,7 @@ def get_player_ids(name, db_path):
     # connecting to database, queries for chosen player using parameterized query
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor() # creates cursor object to excecute queries
-    cursor.execute('SELECT player from players WHERE player = ?', (name,)) # query for chosen player
+    cursor.execute('SELECT * from players WHERE player = ?', (name,)) # query for chosen player
     result = cursor.fetchone() # fetches the first result from query
 
     try:
