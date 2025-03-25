@@ -1,5 +1,5 @@
 import sqlite3
-from player_ids import get_player_ids
+from .player_ids import get_player_ids
 
 
 def insert_prep(df, db_path):
