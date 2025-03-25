@@ -1,2 +1,5 @@
 test.py
 test_db.py
+nba_stats.db 
+nba_test.db
+__pycache__
