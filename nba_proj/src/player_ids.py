@@ -1,15 +1,27 @@
 import sqlite3
 
 def get_player_ids(name, db_path):
-    """"
-    Checks if player has a player_id in players table,
-    if player has an associated player_id returns player_id,
-    if not adds player to players table then generates and return player_id
+    """
+    Checks if player has an associated player id in database.
+
+    Checks if player has a player_id in players table, if player has an associated 
+    player_id returns player_id, if not adds player to players table then generates 
+    and return player_id.
+
+    Args: 
+        name (str): The name of the player.
+        db_path (str): The database to in which to check for player id.
+    
+    Returns:
+        player_id (int): The player's associated player id.
+
+    Raises:
+        sqlite3.Error: If an sqlite3 Error occurs during querying.
     """
     # connecting to database, queries for chosen player using parameterized query
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor() # creates cursor object to excecute queries
-    cursor.execute('SELECT player from players WHERE player = ?', (name,)) # query for chosen player
+    cursor.execute('SELECT * from players WHERE player = ?', (name,)) # query for chosen player
     result = cursor.fetchone() # fetches the first result from query
 
     try:
@@ -35,3 +47,4 @@ def get_player_ids(name, db_path):
             cursor.close()
         if conn:
             conn.close()
+
